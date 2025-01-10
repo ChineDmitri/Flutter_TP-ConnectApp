@@ -4,6 +4,20 @@ This Flutter project demonstrates a basic login system integrated with a mock AP
 
 ---
 
+## Application Credentials
+
+Here are the predefined users for testing the application:
+
+- **User**:
+    - Email: `user@esgi.fr`
+    - Password: `userpass`
+
+- **Admin**:
+    - Email: `admin@esgi.fr`
+    - Password: `adminpass`
+
+---
+
 ## Features
 
 - **Login Screen**: Users can log in using their credentials.
@@ -11,6 +25,15 @@ This Flutter project demonstrates a basic login system integrated with a mock AP
 - **Password Hashing**: Passwords are hashed using SHA-256 before being sent to the server.
 - **Dynamic API Configuration**: Handles different environments (Web, Android, iOS) with dynamic URL selection.
 - **JWT Authentication**: Secured communication using JSON Web Tokens.
+
+---
+
+## Application wireframe
+
+Placeholders for images of the application will be added here later to demonstrate the UI and functionality.
+![main screen](https://drive.google.com/u/0/drive-viewer/AKGpihY4Ba2Ye97U0eraE_SNReWfEZQnHZqFZEb53-UPaweU2QmhQunLa-c-b_coohtkdr-YhEkVXPCyeddR9YhSTOFTZc0NyR6AmA=s2560)
+
+![main screen](https://drive.google.com/file/d/1gntpt3sY9Gi3rRdB66hRhaiAkBH3WxxN/view)
 
 ---
 
