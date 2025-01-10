@@ -30,9 +30,10 @@ Here are the predefined users for testing the application:
 
 ## Application wireframe
 
-Placeholders for images of the application will be added here later to demonstrate the UI and functionality.
+Main screen :
 ![main screen](./img1.png)
 
+Profile screen
 ![main screen](./img2.png)
 
 ---
