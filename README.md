@@ -31,9 +31,9 @@ Here are the predefined users for testing the application:
 ## Application wireframe
 
 Placeholders for images of the application will be added here later to demonstrate the UI and functionality.
-![main screen](https://drive.google.com/u/0/drive-viewer/AKGpihY4Ba2Ye97U0eraE_SNReWfEZQnHZqFZEb53-UPaweU2QmhQunLa-c-b_coohtkdr-YhEkVXPCyeddR9YhSTOFTZc0NyR6AmA=s2560)
+![main screen](./img1.png)
 
-![main screen](https://drive.google.com/file/d/1gntpt3sY9Gi3rRdB66hRhaiAkBH3WxxN/view)
+![main screen](./img2.png)
 
 ---
 
