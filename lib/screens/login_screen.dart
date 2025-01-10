@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/screens/profile_screen.dart';
 import 'package:login_app/services/auth_service.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.title});
@@ -19,60 +21,46 @@ class LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-  // final Map<String, String> _users = {
-  //   'user@example.com': 'userpass',
-  //   'admin@example.com': 'adminpass',
-  // };
-  final Map<String, Map<String, dynamic>> _users = {
-    'user@example.com': {
-      'password': 'userpass',
-      'firstName': 'Jane',
-      'lastName': 'Doe',
-      'role': 'User',
-    },
-    'admin@example.com': {
-      'password': 'adminpass',
-      'firstName': 'Admin',
-      'lastName': 'User',
-      'role': 'Admin',
-    },
-  };
+  String hashPassword(String password) {
+    final bytes = utf8.encode(password); // Convertir le mot de passe en bytes
+    final digest = sha256.convert(bytes); // Hacher les bytes avec SHA-256
+    return digest.toString(); // Retourner le hash sous forme de chaîne
+  }
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
+
       String email = _emailController.text;
-      String password = _passwordController.text;
-      final user = await _authService.login(email, password);
+      String password = hashPassword(_passwordController.text); // Hacher le mot de passe
+
+      final token = await _authService.login(email, password);
+
       setState(() {
         _isLoading = false;
       });
-      if (user != null) {
-        // Connexion réussie avec informations supplémentaires
+
+      if (token != null) {
+        // Navigation vers l'écran du profil avec le token
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProfileScreen(
-              email: email,
-              firstName: user['firstName'],
-              lastName: user['lastName'],
-              role: user['role'],
-            ),
+            builder: (context) => ProfileScreen(token: token),
           ),
         );
       } else {
-        // Connexion échouée
+        // Affichage d'une erreur
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Erreur'),
-            content: Text('Email ou mot de passe incorrect'),
+            title: const Text('Erreur'),
+            content: const Text('Email ou mot de passe incorrect'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           ),
@@ -92,7 +80,7 @@ class LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // mail
+                // Champ Email
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
@@ -100,14 +88,11 @@ class LoginScreenState extends State<LoginScreen> {
                     border: OutlineInputBorder(),
                     icon: Icon(Icons.mail),
                   ),
-                  //keyboardType: TextInputType.visiblePassword,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                  // Validation de l'email
                     if (value == null || value.isEmpty) {
                       return 'Veuillez entrer votre email';
                     }
-                    // Regex simple pour valider l'email
                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                       return 'Veuillez entrer un email valide';
                     }
@@ -124,9 +109,8 @@ class LoginScreenState extends State<LoginScreen> {
                     border: OutlineInputBorder(),
                     icon: Icon(Icons.lock),
                   ),
-                  obscureText: true, // Masquer le texte
+                  obscureText: true,
                   validator: (value) {
-                    // Validation du mot de passe
                     if (value == null || value.isEmpty) {
                       return 'Veuillez entrer votre mot de passe';
                     }
@@ -138,18 +122,17 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24.0),
                 _isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : ElevatedButton(
-                        onPressed: _login,
-                        child: Text('Se connecter'),
-                      ),
+                  onPressed: _login,
+                  child: const Text('Se connecter'),
+                ),
               ],
             ),
           ),
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
     );
